@@ -4,15 +4,14 @@ import ProductsLayout from "../../components/productsLayout";
 import Link from "next/link";
 import Head from "next/head";
 import React from "react";
+import {getProducts, Product} from "../../service/products";
 
 type Props = {
-  params: {
-    slug: string;
-  };
+  products: Product[];
 };
 
-export default function Pants(params: any) {
-  console.log(params);
+export default function Pants({ products }: Props) {
+  console.log('static props : ', products);
   const router = useRouter();
   const { slug } = router.query;
 
@@ -30,9 +29,9 @@ export default function Pants(params: any) {
 }
 
 export async function getStaticPaths() {
-  const products = ['pants', 'skirt'];
+  const products = await getProducts();
   const paths = products.map((product) => ({
-    params: { slug: product }
+    params: { slug: product.id }
   }));
 
   return {
@@ -42,8 +41,9 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps(context: any) {
+  const products = await getProducts();
   return {
-    // Passed to the page component as props
-    props: { staticProps: {} },
+    props: { products },
+    revalidate: 5,
   }
 }
