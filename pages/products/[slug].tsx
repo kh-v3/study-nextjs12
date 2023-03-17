@@ -2,6 +2,8 @@ import { useRouter } from 'next/router'
 import Layout from "../../components/layout";
 import ProductsLayout from "../../components/productsLayout";
 import Link from "next/link";
+import Head from "next/head";
+import React from "react";
 
 type Props = {
   params: {
@@ -16,6 +18,10 @@ export default function Pants(params: any) {
 
   return (
     <Layout>
+      <Head>
+        <title>nextjs12 | {slug}</title>
+        <meta property="og:title" content="nextjs12 product" key="title" />
+      </Head>
       <ProductsLayout>
         <h1>{slug}!! in pages</h1>
       </ProductsLayout>
